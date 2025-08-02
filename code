@@ -1,0 +1,38 @@
+import datetime
+
+def chatbot():
+    print("🤖: Hi! I'm RuleBot. Type 'exit' to end the chat.")
+    
+    while True:
+        user_input = input("You: ").lower().strip()
+
+        if user_input == 'exit':
+            print("🤖: Goodbye! Have a great day.")
+            break
+
+        elif any(greet in user_input for greet in ['hi', 'hello', 'hey']):
+            print("🤖: Hello! How can I help you today?")
+        
+        elif 'your name' in user_input:
+            print("🤖: I'm RuleBot, your friendly chatbot.")
+        
+        elif 'time' in user_input:
+            now = datetime.datetime.now()
+            print(f"🤖: The current time is {now.strftime('%H:%M:%S')}.")
+
+        elif 'date' in user_input:
+            today = datetime.date.today()
+            print(f"🤖: Today’s date is {today.strftime('%B %d, %Y')}.")
+
+        elif 'how are you' in user_input:
+            print("🤖: I'm just code, but I'm running perfectly! 😊")
+
+        elif 'bye' in user_input:
+            print("🤖: Bye! Take care.")
+            break
+
+        else:
+            print("🤖: I'm not sure how to respond to that. Can you try something else?")
+
+# Run the chatbot
+chatbot()
