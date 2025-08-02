@@ -1,0 +1,30 @@
+import pandas as pd # type: ignore
+from sklearn.feature_extraction.text import CountVectorizer # type: ignore
+from sklearn.metrics.pairwise import cosine_similarity # type: ignore
+
+# Load data
+movies = pd.read_csv("movies.csv")
+
+# Create feature matrix using genres
+vectorizer = CountVectorizer(tokenizer=lambda x: x.split(', '))
+genre_matrix = vectorizer.fit_transform(movies['genre'])
+
+# Compute similarity
+similarity = cosine_similarity(genre_matrix)
+
+# Recommend function
+def recommend_movie(title, top_n=3):
+    if title not in movies['title'].values:
+        print("❌ Movie not found.")
+        return
+    idx = movies[movies['title'] == title].index[0]
+    sim_scores = list(enumerate(similarity[idx]))
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+    sim_scores = sim_scores[1:top_n+1]  # skip the input movie
+    recommended = [movies.iloc[i[0]]['title'] for i in sim_scores]
+    print(f"📽 Recommendations for '{title}':")
+    for rec in recommended:
+        print(f"👉 {rec}")
+
+# Example
+recommend_movie("Inception")
